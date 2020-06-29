@@ -1,1 +1,6 @@
-node app.js
+# Express JS
+
+```sh
+$ npm install
+$ node app.js
+```
