@@ -1,0 +1,118 @@
+<div class="rounded bg-light pb-5">
+	<h3 class="mb-3 text-center text-underline border bg-warning py-2">Create a new post</h3>
+	<!--<form #newPostForm="ngForm"  ng2FileSelect [uploader]="uploader" (ngSubmit)="newPostForm.valid && onSubmit(newPostForm)">-->
+
+
+	<form #newPostForm="ngForm" (ngSubmit)="newPostForm.valid && onSubmit(newPostForm)">
+		<!-- Success message -->
+		<div class="success text-center" *ngIf="showSucessMessage">
+			Saved successfully
+		</div>
+
+		<!-- Error message -->
+		<div class="alert text-center" *ngIf="serverErrorMessages">
+			{{serverErrorMessages}}
+		</div>
+		<div class="container">
+			<hr>
+			<input type="text" #title="ngModel" [(ngModel)]="postService.selectedPost.title" name="title"
+				placeholder="Name" required [ngClass]="{'invalid-textbox' :newPostForm.submitted && !title.valid }">
+			<div *ngIf="newPostForm.submitted && !title.valid">
+				<label class="validation-message">This field is required.</label>
+			</div>
+			<input type="text" #description="ngModel" [(ngModel)]="postService.selectedPost.description"
+				name="description" placeholder="Name" required
+				[ngClass]="{'invalid-textbox' :newPostForm.submitted && !description.valid }">
+			<div *ngIf="newPostForm.submitted && !description.valid">
+				<label class="validation-message">This field is required.</label>
+			</div>
+			<!-- Text Input 
+			<div class="form-group">
+				<label for="title">Project Title</label>
+				<input [(ngModel)]="postService.selectedPost.title" name="title" id="title" formControlName="title" placeholder="Title" class="bg-white form-control"
+					type="text" required [ngClass]="{'invalid-textbox' :uploadForm.submitted && !title.valid }">
+				<div *ngIf="uploadForm.submitted && title.errors">
+					<label *ngIf="title.errors.required" class="validation-message">This field is required.</label>
+				</div>
+			</div>
+		-->
+			<!-- Text Input -
+			<div class="form-group">
+				<label for="description">Description</label>
+				<textarea [(ngModel)]="postService.selectedPost.description" id="description"
+					formControlName="description" name="description" placeholder="Say something about it" rows="3"
+					class="form-control" required
+					[ngClass]="{'invalid-textbox' :uploadForm.submitted && !description.valid }"></textarea>
+				<div *ngIf="uploadForm.submitted && description.errors">
+					<label *ngIf="description.errors.required" class="validation-message">This field is
+						required.</label>
+				</div>
+			</div>
+			<!-- Upload Files ng2-file-input -->
+			<div class="d-flex">
+				<label for="uploadAsk" class=" control-label"><strong>Upload Media?</strong></label>
+				<input type="checkbox" href="#uploadFiles" data-toggle="collapse" aria-expanded="false"
+					aria-controls="moreabout" class="form-control" id="uploadAsk" value="no">
+			</div>
+			<div class="row" class="collapse mt-5" id="uploadFiles">
+				<div class="col-5 ">
+					<h3>Upload queue</h3>
+					<p>Queue length: {{ uploader?.queue?.length }}</p>
+				</div>
+				<div class="col-5 mt-auto pb-3 form-group">
+					<input type="file" ng2FileSelect accept=".png,.jpg,.mp4,.jpeg,.gif" [uploader]="uploader" multiple
+						required /><br />
+				</div>
+
+				<div class="col-10" style="margin-bottom: 40px">
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="50%" class="rounded">Name</th>
+								<th class="rounded">Size</th>
+								<th class="rounded">Progress</th>
+								<th class="rounded">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of uploader.queue">
+								<td class="rounded"><strong>{{ item?.file?.name }}</strong></td>
+								<td class="rounded" *ngIf="uploader.options.isHTML5" nowrap>
+									{{ item?.file?.size/1024/1024 | number:'.2' }}
+									MB</td>
+								<td class="rounded" *ngIf="uploader.options.isHTML5">
+									<div class="progress" style="margin-bottom: 0;">
+										<div class="progress-bar" role="progressbar"
+											[ngStyle]="{ 'width': item.progress + '%' }"></div>
+									</div>
+								</td>
+								<td class="rounded" nowrap>
+									<button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+										<span class="glyphicon glyphicon-trash"></span> Remove
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div>
+						<div>
+							Queue progress:
+							<div class="progress" style="">
+								<div class="progress-bar" role="progressbar"
+									[ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+							</div>
+						</div>
+						<button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+							[disabled]="!uploader.queue.length">
+							<span class="glyphicon glyphicon-trash"></span> Remove all
+						</button>
+					</div>
+				</div>
+			</div>
+			<br><br>
+			<input type="submit" class="btn btn-primary" value="Post">
+		</div>
+	</form>
+
+</div>

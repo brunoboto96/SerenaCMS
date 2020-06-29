@@ -1,0 +1,54 @@
+<div class="rounded bg-light">
+    <h3 class="mb-3 text-center text-underline border bg-warning py-2">Manage your posts</h3>
+    <hr>
+    <div class="row ">
+        <div *ngFor="let project of projectList; index as idx" class="col-md-4 col-sm-12 px-4 pb-4">
+            <div class="card">
+                <div id="car_{{ idx }}" class="carousel slide second pb-5" data-ride="true" data-wrap="false">
+                    <ol class="carousel-indicators mb-5 pb-5">
+                        <li *ngFor="let file of filesList[idx]; index as mdx"
+                            [ngClass]="{'active': mdx == 0, 'hidden': !file}" [attr.data-target]="'#car_'+ idx"
+                            [attr.data-slide-to]="mdx"></li>
+                    </ol>
+                    <div class="carousel-inner bg-dark py-2">
+                        <div *ngFor="let file of filesList[idx]; index as mdx"
+                            [ngClass]="{'carousel-item': file.postId == project._id, 'active': mdx == 0}"
+                            data-interval="0">
+                            <img src="{{ url+file.path }}" onerror="this.src='/assets/img/imgnotfound.png'"
+                                *ngIf="file.type.includes('image');else videoblock" class="d-block mx-auto"
+                                style="max-width: 100%;max-height: 20vh;">
+                            <ng-template #videoblock>
+                                <video class="d-block mx-auto embed-responsive-item" controls
+                                    style="max-width: 100%;max-height: 20vh;">
+                                    <source src="{{ url+file.path }}" type="{{file.type}}" onerror="this.src='/assets/img/pulpnotfound.gif'">
+                                    <source src="/assets/img/pulpnotfound.gif" type="{{file.type}}">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div *ngIf="filesList[idx]?.length <= 0" class="bg-dark py-2">
+                        <img src="/assets/img/imgnotfound.png" class="d-block mx-auto"
+                            style="max-width: 100%;max-height: 20vh;">
+                    </div>
+                    <ng-container *ngIf="filesList[idx]?.length > 0">
+                        <a class="carousel-control-prev" href="#car_{{ idx }}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#car_{{ idx }}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </ng-container>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description }}</p>
+                    <a href="admin/cp/posts/edit/{{ project._id }}" class="btn btn-warning">Edit</a>
+                    <button (click)="deletePost(project._id, idx)" class="btn btn-danger mx-2">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

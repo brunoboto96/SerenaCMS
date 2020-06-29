@@ -1,0 +1,116 @@
+<div class="rounded bg-light pb-5">
+    <h3 class="mb-3 text-center text-underline border bg-warning py-2">Edit post</h3>
+    <hr>
+
+
+    <form [formGroup]="uploadForm" #newPostForm="ngForm" (ngSubmit)="newPostForm.valid && onSubmit(newPostForm)">
+        <div class="container">
+            <div class="child p-5 rounded border py-2" *ngIf="post;">
+                <!-- Text Input -->
+                <div class="form-group haserrors">
+                    <label for="title">Project Title</label>
+                    <input name="title" id="title" formControlName="title" value="{{ post.title }}" class="bg-white" type="text" required>
+                </div>
+                <!-- Text Input -->
+                <div class="form-group haserrors">
+                    <label for="description">Description</label>
+                    <textarea id="description" formControlName="description" name="description" value="{{ post.description }}" rows="3" class="form-control" required></textarea>
+                </div>
+                <!-- Upload Files ng2-file-input -->
+                <div class="d-flex">
+                    <label for="uploadAsk" class=" control-label"><strong>Change Media?</strong></label>
+                    <input type="checkbox" href="#uploadFiles" data-toggle="collapse" aria-expanded="false" aria-controls="moreabout" class="form-control" id="uploadAsk" value="no">
+                </div>
+                <div class="collapse my-2" id="uploadFiles">
+                    <div class="row" *ngIf="mediaList;">
+                        <div *ngFor="let file of mediaList; index as idx" class="col-md-4 col-sm-12 d-flex flex-column my-2">
+                            <img src="{{ url+file.path }}" *ngIf="file.type.includes('image');else videoblock" class="d-block mx-auto" style="max-width: 100%;max-height: 20vh;">
+                            <ng-template #videoblock>
+                                <video class="d-block mx-auto embed-responsive-item" controls style="max-width: 100%;max-height: 20vh;">
+                                    <source src="{{ url+file.path }}" type="{{file.type}}">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </ng-template>
+                            <div class="mt-auto d-flex flex-column">
+                                <a class="btn btn-danger" (click)="deleteMedia(file._id,idx)">Remove</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 d-flex flex-column my-2">
+                            <a class="btn btn-light h-100" href="#uploadMedia" data-toggle="collapse"><i
+                                    class="fas fa-plus-circle mx-auto" style="font-size: 15vh;"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="row" class="collapse mt-5" id="uploadMedia">
+                        <div class="col-5 ">
+                            <h3>Upload queue</h3>
+                            <p>Queue length: {{ uploader?.queue?.length }}</p>
+                        </div>
+                        <div class="col-5 mt-auto pb-3 form-group">
+                            <input type="file" ng2FileSelect accept=".png,.jpg,.mp4,.jpeg,.gif" [uploader]="uploader" multiple required /><br />
+                        </div>
+
+                        <div class="col-10" style="margin-bottom: 40px">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="50%" class="rounded">Name</th>
+                                        <th class="rounded">Size</th>
+                                        <th class="rounded">Progress</th>
+                                        <th class="rounded">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                        <td class="rounded"><strong>{{ item?.file?.name }}</strong></td>
+                                        <td class="rounded" *ngIf="uploader.options.isHTML5" nowrap>
+                                            {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+                                        </td>
+                                        <td class="rounded" *ngIf="uploader.options.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="rounded" nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div>
+                                <div>
+                                    Queue progress:
+                                    <div class="progress" style="">
+                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                    <span class="glyphicon glyphicon-trash"></span> Remove all
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- Success message -->
+            <div class="success" *ngIf="showSucessMessage">
+                Saved successfully
+            </div>
+
+            <!-- Error message -->
+            <div class="alert" *ngIf="serverErrorMessages">
+                {{serverErrorMessages}}
+            </div>
+        </div>
+    </form>
+
+
+
+
+</div>

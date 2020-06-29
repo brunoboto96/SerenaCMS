@@ -1,0 +1,41 @@
+.page {
+	height: 100vh;
+	scroll-snap-type: y mandatory;
+	overflow-y: scroll;
+}
+.main-title {
+	margin-top: 45vh;
+}
+
+.page section {
+	height: 100vh;
+	scroll-snap-align: start;
+}
+
+.page .first {
+	height: 20vh;
+}
+
+.page .second {
+	height: 80vh;
+}
+
+
+.page .child:nth-of-type(odd) {
+	background: rgb(228, 158, 216);
+	background: -moz-radial-gradient(circle, rgba(228, 158, 216, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	background: -webkit-radial-gradient(circle, rgba(228, 158, 216, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	background: radial-gradient(circle, rgba(228, 158, 216, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e49ed8", endColorstr="#4b598a", GradientType=1);
+}
+
+.page .child:nth-of-type(even) {
+	background: rgb(174, 238, 209);
+	background: -moz-radial-gradient(circle, rgba(174, 238, 209, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	background: -webkit-radial-gradient(circle, rgba(174, 238, 209, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	background: radial-gradient(circle, rgba(174, 238, 209, 1) 0%, rgba(75, 89, 138, 1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#aeeed1", endColorstr="#4b598a", GradientType=1);
+}
+
+.carousel {
+}

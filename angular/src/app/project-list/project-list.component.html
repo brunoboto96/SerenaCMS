@@ -1,0 +1,58 @@
+<div class="page">
+    <section class="child p-5 text-center pt-5">
+        <div class="main-title">
+            <h1>Serena Lanis</h1>
+            <h2>Artist</h2>
+            <img width="40px" src="./assets/img/main.png">
+        </div>
+    </section>
+    <section *ngFor="let project of projectList; index as idx" class="child p-5">
+        <ng-container *ngIf="filesList[idx][0]; else noMedia">
+            <div class="text-center first">
+                <h1>{{ project.title }}</h1>
+                <div [innerHTML]=project.description ></div>
+            </div>
+
+
+            <div id="car_{{ idx }}" class="carousel slide second pb-5" data-ride="true" data-wrap="false">
+                <ol class="carousel-indicators mb-5 pb-5">
+                    <li *ngFor="let file of filesList[idx]; index as mdx" [ngClass]="{'active': mdx == 0}"
+                        [attr.data-target]="'#car_'+ idx" [attr.data-slide-to]="mdx"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div *ngFor="let file of filesList[idx]; index as mdx"
+                        [ngClass]="{'carousel-item': file.postId == project._id, 'active': mdx == 0}" data-interval="0">
+                        <img src="{{ url+file.path }}" *ngIf="file.type.includes('image');else videoblock"
+                            class="d-block mx-auto" style="max-height: 75vh;max-width: 90vw;min-height: 50vh;">
+                        <ng-template #videoblock>
+                            <video class="d-block mx-auto embed-responsive-item" controls
+                                style="max-height: 75vh;max-width: 90vw;min-height: 50vh;">
+                                <source src="{{ url+file.path }}" type="{{file.type}}">
+                                Your browser does not support the video tag.
+                            </video>
+                        </ng-template>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#car_{{ idx }}" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#car_{{ idx }}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </ng-container>
+
+        <ng-template #noMedia>
+            <div class="text-center main-title">
+                <hr>
+                <h1>{{ project.title }}</h1>
+                <hr>
+                <div [innerHTML]= project.description ></div>
+            </div>
+        </ng-template>
+    </section>
+
+
+</div>
