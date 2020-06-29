@@ -27,7 +27,7 @@ configurations:
 
 posts-list:
   scroll lateral from config
-
+ 
 
 backend:
   custom server responses for each case
