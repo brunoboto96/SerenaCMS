@@ -1,0 +1,41 @@
+main page:
+  if no files no carousel =)
+  detect links =)
+
+order:
+  change the order from db
+
+new post:
+  upload files validation bug crashes server
+
+delete:
+  deleting first causes problems =)
+
+edit:
+  messages top central ??
+  validation, no need to retype ??
+  no media but with errors ??
+
+index:
+  load title from db
+
+configurations:
+  add title
+  add from edit lists and remove + add if no picture
+  link with backend 
+  create service, controller and model
+
+posts-list:
+  scroll lateral from config
+
+
+backend:
+  custom server responses for each case
+
+announcements:
+  position fixed center screen mt-20vh
+
+mail auth:
+  receive email account registered
+  admin account in configurations to approve new sign ups with confirmation key
+  
